@@ -26,8 +26,10 @@ func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
     	ConcertAPI.Bands(w, req)
     case "/artists":
         ConcertAPI.Artists(w, req)
-	case "/artisttemplate.html":
-        ConcertAPI.ArtistTemplate(w, req)
+	case "/scripts.js":
+        ConcertAPI.ScriptsServ(w, req)
+	//case "/artisttemplate.html":
+    //    ConcertAPI.ArtistTemplate(w, req)
 
     default:
         http.Error(w, "404 Not Found", 404)
