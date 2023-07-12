@@ -65,8 +65,8 @@ func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		ConcertAPI.Bands(w, req)
 	case "/artists":
 		ConcertAPI.GetArtists(w, req)
-	case "/scripts.js":
-		ConcertAPI.ScriptsServ(w, req)
+	case "/artisttemplate.html":
+		ConcertAPI.ArtistTemplate(w, req)
 	case "/core.js":
 		ConcertAPI.ScriptsServ(w, req)
 

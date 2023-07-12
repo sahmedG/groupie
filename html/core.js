@@ -7,7 +7,7 @@ var targetCardIndex = -1;
 $(document).ready(function () {
   //update cards on page load
   $("#nothing-found").hide();
-  updateCards(9);
+  updateCards(52);
 });
 
 function updateCards(amount) {
@@ -18,11 +18,11 @@ function updateCards(amount) {
   $(document).ready(function () {
     return $.ajax({
       type: "POST",
-      url: "/handlers/artists",
+      url: "/artists",
       dataType: "json",
       data: {
         "artists-amount": amount,
-        random: 1,
+        random: 0,
       },
       traditional: true,
 
@@ -30,37 +30,28 @@ function updateCards(amount) {
         $("#container").empty();
         response = retrievedData;
         $.each(retrievedData, function (_, value) {
-          var members = "<br>";
           var id = value.ArtistsID;
           $("#container")
             .append(
-              `<div class='card' onclick='openModal(${id})' id='${id}'>
-              <div class='img-overlay'>
-                 <img src='${
-                   value.Image
-                 }' style='width: 200px; height: 200px'></img>
-                 <div class='img-text'>${value.CreationDate}
-                 </div>
+              ` <div class="rounded overflow-hidden shadow-lg bg-white max-w-fit">
+              <img
+                class=""
+                src="${value.Image}"
+                alt="${value.Name}"
+              />
+              <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2 text-center flex flex-wrap">${value.Name}</div>
+                <div class="py-6 flex justify-center">
+                <a target='_self' rel='noopener noreferrer' href='artisttemplate.html'>
+                  <button class="button" onclick="openModal(${id})">
+                    <span class="button_lg">
+                      <span class="button_sl"></span>
+                      <<span class="button_text">More Info</span>
+                    </span>
+                  </button>
+                </div>
               </div>
-              <div class='info'>
-                 <h2>
-                    <a target='_blank' rel='noopener noreferrer' href='https://groupietrackers.herokuapp.com/handlers/artists/${id}'>
-                    ${value.Name}
-                    </a>
-                 </h2>
-                 <div class='title'>1<sup>st</sup> album: ${value.FirstAlbum}
-                 </div>
-                 <div class='desc'>
-                    <p><br/>${value.Members.join("<br/>")}</p>
-                 </div>
-              </div>
-              <div class='actions'>
-                 <div class='overlay'></div>
-                 <div class='calendar-container'>
-                    <img src='/static/assets/calendar.svg' class='my-icon'>
-                 </div>
-              </div>
-           </div>`
+            </div>`
             )
             .hide()
             .slideDown("normal");
@@ -91,75 +82,10 @@ function openModal(modalReference) {
 
     $.each(response[targetCardIndex].Members, function (key, value) {
       membersList += value + "<br>";
+      
     });
 
-    $("#modal").modal("show");
-    //$("#modal").find("#modal-body").html(concertDates);
-    $("#modal").find("#modal-body-members").html(membersList);
-    $("#modal .modal-title").text(response[targetCardIndex].Name);
-    $("#modal-img").attr("src", response[targetCardIndex].Image);
-    if (!mapCreated) {
-      createMap();
-      mapCreated = true;
-    }
-    getGeocodes();
-    ymaps.ready(updateMarkers());
+  console.log(membersList)
+  console.log(response[targetCardIndex].Name)
   });
-}
-
-function getGeocodes(strArr) {
-  var query = "";
-  $.each(response[targetCardIndex].RelationStruct, function (key, value) {
-    if (query.length < 1) {
-      query += key;
-    } else {
-      query += "," + key;
-    }
-  });
-
-  $.ajax({
-    async: false,
-    type: "POST",
-    url: "/api/geocode",
-    data: {
-      query: query,
-    },
-    dataType: "json",
-    success: function (response) {
-      mapMarkers = response;
-    },
-  });
-}
-
-function createMap() {
-  map = new ymaps.Map("map", {
-    center: [45.58329, 24.761017],
-    zoom: 1,
-  });
-}
-
-function updateMarkers() {
-  map.geoObjects.removeAll();
-  $.each(mapMarkers, function (_, index) {
-    var concertDates = "<br>";
-    var locName = index.Name.replace(/-/g, ", ");
-    locName = locName = locName.replace(/_/g, " ");
-    locName = titleCase(locName);
-
-    $.each(
-      response[targetCardIndex].RelationStruct[index.Name],
-      function (_, value) {
-        concertDates += value + "<br>";
-      }
-    );
-
-    map.geoObjects.add(
-      new ymaps.Placemark([index.Coords[0], index.Coords[1]], {
-        preset: "islands#icon",
-        iconColor: "#0095b6",
-        hintContent: locName + concertDates,
-      })
-    );
-  });
-  mapMarkers = [];
 }
