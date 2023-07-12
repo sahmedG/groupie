@@ -7,5 +7,6 @@ import (
 
 func ScriptsServ(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(req.URL.Path)
-	http.ServeFile(w, req, "../html/scripts.js")
+//	http.ServeFile(w, req, "../html/scripts.js")
+	http.ServeFile(w, req, "../html/core.js")
 }
