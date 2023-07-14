@@ -22,7 +22,7 @@ function updateCards(amount) {
       dataType: "json",
       data: {
         "artists-amount": amount,
-        random: 0,
+        random: 1,
       },
       traditional: true,
 
@@ -33,7 +33,8 @@ function updateCards(amount) {
           var id = value.ArtistsID;
           $("#container")
             .append(
-              ` <div class="rounded overflow-hidden shadow-lg bg-white max-w-fit">
+              ` 
+              <div class="rounded overflow-hidden shadow-lg bg-white max-w-fit">
               <img
                 class=""
                 src="${value.Image}"
@@ -42,7 +43,7 @@ function updateCards(amount) {
               <div class="px-6 py-4">
                 <div class="font-bold text-xl mb-2 text-center flex flex-wrap">${value.Name}</div>
                 <div class="py-6 flex justify-center">
-                <a target='_self' rel='noopener noreferrer' href='artisttemplate.html'>
+                
                   <button class="button" onclick="openModal(${id})">
                     <span class="button_lg">
                       <span class="button_sl"></span>
@@ -82,10 +83,75 @@ function openModal(modalReference) {
 
     $.each(response[targetCardIndex].Members, function (key, value) {
       membersList += value + "<br>";
-      
     });
 
-  console.log(membersList)
-  console.log(response[targetCardIndex].Name)
+    $("#modal").modal("show");
+    //$("#modal").find("#modal-body").html(concertDates);
+    $("#modal").find("#modal-body-members").html(membersList);
+    $("#modal .modal-title").text(response[targetCardIndex].Name);
+    $("#modal-img").attr("src", response[targetCardIndex].Image);
+    if (!mapCreated) {
+      createMap();
+      mapCreated = true;
+    }
+    getGeocodes();
+    ymaps.ready(updateMarkers());
   });
+}
+
+function getGeocodes(strArr) {
+  var query = "";
+  $.each(response[targetCardIndex].RelationStruct, function (key, value) {
+    if (query.length < 1) {
+      query += key;
+    } else {
+      query += "," + key;
+    }
+  });
+
+  $.ajax({
+    async: false,
+    type: "POST",
+    url: "/geocode",
+    data: {
+      query: query,
+    },
+    dataType: "json",
+    success: function (response) {
+      mapMarkers = response;
+    },
+  });
+}
+
+function createMap() {
+  map = new ymaps.Map("map", {
+    center: [45.58329, 24.761017],
+    zoom: 1,
+  });
+}
+
+function updateMarkers() {
+  map.geoObjects.removeAll();
+  $.each(mapMarkers, function (_, index) {
+    var concertDates = "<br>";
+    var locName = index.Name.replace(/-/g, ", ");
+    locName = locName = locName.replace(/_/g, " ");
+    locName = titleCase(locName);
+
+    $.each(
+      response[targetCardIndex].RelationStruct[index.Name],
+      function (_, value) {
+        concertDates += value + "<br>";
+      }
+    );
+
+    map.geoObjects.add(
+      new ymaps.Placemark([index.Coords[0], index.Coords[1]], {
+        preset: "islands#icon",
+        iconColor: "#0095b6",
+        hintContent: locName + concertDates,
+      })
+    );
+  });
+  mapMarkers = [];
 }

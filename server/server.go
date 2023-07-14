@@ -47,7 +47,8 @@ func init() {
 
 func main() {
 	var r router
-	http.ListenAndServe(":8000", &r)
+	
+	http.ListenAndServe(":8080", &r)
 }
 
 type router struct{}
@@ -61,15 +62,36 @@ func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		ConcertAPI.StylesServ(w, req)
 	case "/static/vid.mp4":
 		ConcertAPI.VidServe(w, req)
-	case "/bands.html":
+	case "/bands":
 		ConcertAPI.Bands(w, req)
 	case "/artists":
 		ConcertAPI.GetArtists(w, req)
-	case "/artisttemplate.html":
+	case "/artisttemplate":
 		ConcertAPI.ArtistTemplate(w, req)
-	case "/core.js":
+	case "/filter":
+		ConcertAPI.FilterArtists(w,req)
+	case "/geocode":
+		ConcertAPI.GetGeocode(w,req)
+	case "/find":
+		ConcertAPI.FindArtist(w,req)
+	case "/static/js/core.js":
 		ConcertAPI.ScriptsServ(w, req)
-
+	case "/static/js/locations.js":
+		ConcertAPI.ScriptsServ2(w, req)
+	case "/static/js/search.js":
+		ConcertAPI.ScriptsServ3(w, req)
+	case "/static/js/beautify.js":
+		ConcertAPI.ScriptsServ4(w, req)
+	case "/static/js/filter.js":
+		ConcertAPI.ScriptsServ5(w, req)
+	case "/static":
+	 	ConcertAPI.StaticFiles(w,req)
+	case "/static/css/sidenav.css":
+		ConcertAPI.StylesServ5(w,req)
+	case "/static/css/hero.css":
+		ConcertAPI.StylesServ3(w,req)
+	case "/static/css/card.css":
+		ConcertAPI.StylesServ4(w,req)
 	default:
 		http.Error(w, "404 Not Found", 404)
 	}
