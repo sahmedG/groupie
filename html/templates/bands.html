@@ -133,39 +133,58 @@
   justify-content: center;
 }
 
-.search-container #search-icon {
-  margin-left: 5px;
-  margin-right: 10px;
-  color: rgb(243, 241, 241);
-  align-self: flex-end;
-}
-
 .search-container #filter {
   cursor: pointer;
   margin-left: 5px;
   margin-right: 5px;
-  color: rgb(252, 252, 252);
+  color: rgb(207, 230, 9);
   align-self: flex-end;
 }
 
-#search {
-  outline: none;
-  width: 65%;
-  height: auto;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid rgb(133, 0, 0);
+ #search {
   text-align: center;
   color: #fff;
+} 
+
+.box{
+    position: relative;
 }
 
-.search-container:hover #search {
-  border-bottom: 1px solid rgb(90, 0, 0);
+.input {
+    padding: 10px;
+    width: 80px;
+    height: 80px;
+    background: none;
+    border: 4px solid #ffd52d;
+    border-radius: 50px;
+    box-sizing: border-box;
+    font-family: Comic Sans MS;
+    font-size: 26px;
+    color: #ffd52d;
+    outline: none;
+    transition: .5s;
+}
+.box:hover input{
+    width: 350px;
+    background: #3b3640;
+    border-radius: 10px;
+}
+.box i{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translate(-50%,-50%);
+    font-size: 26px;
+    color: #ffd52d;
+    transition: .2s;
+}
+.box:hover i{
+    opacity: 0;
+    z-index: -1;
 }
 
-.search-container:hover #search-icon {
-  color: rgb(90, 0, 0);
-}
+
+
     </style>
         <link rel="stylesheet" href="/css/sidenav.css" />
         <link rel="stylesheet" href="/css/hero.css" />
@@ -183,11 +202,15 @@
   <body class="bg-zinc-800">
     <h1 style="margin-bottom: -1%;" class="text-center text-5xl text-nextOrange py-6">All Bands</h1>
     <div class="search-container">
-      <i id="search-icon" class="fa fa-search"></i>
-      <input type="text" id="search" name="search" autocomplete="off" />
+      <div class="box">
+        <form name="search">
+            <input id="search" type="text" class="input" name="txt" onmouseout="this.value = ''; this.blur();">
+        </form>
+        <i class="fa fa-search"></i>
+    </div>
       <span id="openbtn"><i id="filter" class="fa fa-filter"></i></span>
     </div>
-    <div style="margin-left: 10%;margin-top: 2%;" id="container" class="flex-wrap flex gap-4"></div>
+    <div style="margin-left: 8%;margin-top: 2%;" id="container" class="flex-wrap flex gap-4"></div>
         <!---->
         {{template "side-nav"}} {{template "modal"}}
         <script src="/js/rendering_data.js"></script>
