@@ -6,7 +6,6 @@ var targetCardIndex = -1;
 updateCards();
 
 function updateCards() {
-
   $(document).ready(function () {
     return $.ajax({
       type: "POST",
@@ -18,7 +17,6 @@ function updateCards() {
         $("#container").empty();
         response = retrievedData;
         $.each(retrievedData, function (_, value) {
-         // var id = value.BandId;
           $("#container")
             .append(
               ` 
@@ -70,38 +68,35 @@ function openModal(modalReference) {
     var concertDates = "<br>";
     var locName = "";
     var alldata = "";
+
     $.each(response[targetCardIndex].RelationStruct, function (key, _) {
       locName = key.replace(/-/g, ", ");
       locName = locName = locName.replace(/_/g, " ");
-      locName += titleCase(locName);
+      locName = titleCase(locName);
       $.each(
         response[targetCardIndex].RelationStruct[key],
         function (_, value) {
           concertDates += value + "<br>";
         }
       );
+        alldata += locName + concertDates
+        concertDates = "<br>"
     });
+
     var membersList = "";
     $.each(response[targetCardIndex].Members, function (_, value) {
       membersList += value + "<br>";
     });
-    // var concertDates = "";
-    // $.each(
-    //   response[targetCardIndex].RelationStruct,
-    //   function (_, value) {
-    //     concertDates += value + ",";
-    //   }
-    // );
+
+    console.log(alldata)
+
   $("#modal").modal("show");
-  document.getElementById("cdate").innerHTML = "Concerts Dates:"+(concertDates);
-  document.getElementById("cloc").innerHTML = "Concerts loc:"+(locName);
-   document.getElementById("crdate").innerHTML = "Creation Date:"+response[targetCardIndex].CreationDate;
-   //document.getElementById("cdate").innerHTML = "Concerts Dates:<br>"+concertDates;
-  // document.getElementById("cloc").innerHTML = "First Album:<br>"+(response[targetCardIndex].FirstAlbum);
-   document.getElementById("modal-body-members").innerHTML = "Members:<br>"+membersList;
-   document.getElementById("modal-img").src = response[targetCardIndex].Image;
-   document.getElementById("modal-title").innerHTML = "Band Name:<br>" + (response[targetCardIndex].Name);
-    //$("#modal-img").attr("src", response[targetCardIndex].Image);
+  document.getElementById("cdate").innerHTML = "First Album:"+response[targetCardIndex].FirstAlbum;
+  document.getElementById("cloc").innerHTML = "Concerts:<br>"+(alldata);
+  document.getElementById("crdate").innerHTML = "Creation Date:"+response[targetCardIndex].CreationDate;
+  document.getElementById("modal-body-members").innerHTML = "Members:<br>"+membersList;
+  document.getElementById("modal-img").src = response[targetCardIndex].Image;
+  document.getElementById("modal-title").innerHTML = "Band Name:<br>" + (response[targetCardIndex].Name);
     if (!mapCreated) {
       createMap();
       mapCreated = true;
@@ -156,7 +151,7 @@ function updateMarkers() {
       }
     );
 
-    console.log(locName+concertDates)
+    //console.log(locName+concertDates)
     map.geoObjects.add(
       new ymaps.Placemark([index.Coords[0], index.Coords[1]], {
         preset: "islands#icon",
