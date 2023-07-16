@@ -1,23 +1,52 @@
 {{define "modal"}}
-<!-- Modal content-->
+<style>
+  .body {
+    background-color: #000000;
+  }
+  button {
+    padding: 10px 20px;
+    text-transform: uppercase;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 500;
+    color: #00000080;
+    text-shadow: none;
+    background: transparent;
+    box-shadow: transparent;
+    border: 1px solid #0c0c0c80;
+    transition: 0.5s ease;
+    user-select: none;
+  }
+
+  #btn:hover,
+  :focus {
+    color: #000000;
+    background: #00ff7b;
+    border: 1px solid #6fff00;
+    text-shadow: 0 0 5px #0c0c0c, 0 0 10px #111111, 0 0 20px #0c0c0c;
+    box-shadow: 0 0 5px #00ff44, 0 0 20px #00ff44, 0 0 50px #00ff44,
+      0 0 100px #00ff44;
+  }
+  </style>
 <div class="modal fade" id="modal" role="dialog">
   <div class="modal-dialog">
-    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          &times;
-        </button>
-        <h4 class="modal-title" id="moadal-title">name</h4>
-        <img id="modal-img" src="/html/static/sad.png" />
+        <h4 class="modal-title" id="modal-title">name</h4>
+        <div style="display: flex;align-items: center;align-content: center;">
+        <h4 id="modal-body-members">Members</h4><img id="modal-img" style="height: 35%;width: 35%;margin-left: 20%;object-fit: cover;"/>
+      </div>
+      <h3 id="crdate"></h3>
+      <h3 id="cdate">Concerts Dates:</h3>
+      <h3 id="cloc">Concerts locations:</h3>
       </div>
       <div class="modal-body" id="modal-body">
         <div id="map" style="width: 100%; height: 500px;"></div>
-        <!-- <p>concerts</p> -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">
-          Close
+        <button id="btn" class="px-8 py-4" onclick="window.open('http://localhost:8080/', '_self')">Back To HomePage</button>
         </button>
       </div>
     </div>

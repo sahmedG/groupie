@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="output.css" />
+    <link rel="stylesheet" href="/css/output.css" />
    <!-- <script type="text/javascript" src="scripts.js"></script> -->
     <style>
       .button {
@@ -167,33 +167,34 @@
   color: rgb(90, 0, 0);
 }
     </style>
-        <link rel="stylesheet" href="/static/css/sidenav.css" />
-        <link rel="stylesheet" href="/static/css/hero.css" />
-        <link rel="stylesheet" href="/static/css/card.css" />
+        <link rel="stylesheet" href="/css/sidenav.css" />
+        <link rel="stylesheet" href="/css/hero.css" />
+        <link rel="stylesheet" href="/css/card.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/smoothness/jquery-ui.css" />
         <script src="https://api-maps.yandex.ru/2.1?apikey=d8056c94-5f4a-4a39-ae69-2b43f39055dd&lang=en_US"></script>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>All Bands</title>
   </head>
-  <div class="search-container">
-    <i id="search-icon" class="fa fa-search"></i>
-    <input type="text" id="search" name="search" autocomplete="off" />
-    <span id="openbtn"><i id="filter" class="fa fa-filter"></i></span>
-  </div>
+  
   <body class="bg-zinc-800">
-    <h1 class="text-center text-5xl text-nextOrange py-6">All Bands</h1>
-    <div id="container" class="flex-wrap flex gap-4"></div>
+    <h1 style="margin-bottom: -1%;" class="text-center text-5xl text-nextOrange py-6">All Bands</h1>
+    <div class="search-container">
+      <i id="search-icon" class="fa fa-search"></i>
+      <input type="text" id="search" name="search" autocomplete="off" />
+      <span id="openbtn"><i id="filter" class="fa fa-filter"></i></span>
+    </div>
+    <div style="margin-left: 10%;margin-top: 2%;" id="container" class="flex-wrap flex gap-4"></div>
         <!---->
         {{template "side-nav"}} {{template "modal"}}
-        <script src="/static/js/core.js"></script>
-        <script src="/static/js/search.js"></script>
-        <script src="/static/js/filter.js"></script>
-        <script src="/static/js/beautify.js"></script>
-        <script src="/static/js/locations.js"></script>
+        <script src="/js/core.js"></script>
+        <script src="/js/search.js"></script>
+        <script src="/js/filter.js"></script>
+        <script src="/js/beautify.js"></script>
+        <script src="/js/locations.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   </body>
 </html>

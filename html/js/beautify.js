@@ -80,8 +80,6 @@ $("#openbtn, #closebtn").click(function () {
 
 function navControl(amount, unit) {
   sideNav.style.width = amount + unit;
-  mainDiv.style.marginRight = amount + unit;
-  heroDiv.style.marginRight = amount + unit;
 }
 
 $("#dateCreated, #album, #members, #concerts").change(function () {

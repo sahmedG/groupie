@@ -26,7 +26,7 @@ $(document).ready(function () {
       }
     });
     if (cleared) {
-      $("#slider-range").slider("values", 0, 1);
+      $("#slider-range").sl
       $("#slider-range").slider("values", 1, 10);
       $("#membersNum").text("1 - 10");
       $("#container").empty();
@@ -147,37 +147,30 @@ function checkCountries() {
 }
 
 function appendCard(index) {
-  var id = response[index].ArtistsID;
+  var id = response[index].BandId;
 
   $("#container")
     .append(
-      `<div class='card' onclick='openModal(${id})' id='${id}'>
-      <div class='img-overlay'>
-         <img src='${
-           response[index].Image
-         }' style='width: 200px; height: 200px'></img>
-         <div class='img-text'>${response[index].CreationDate}
-         </div>
+      `
+      <div class="rounded overflow-hidden shadow-lg bg-white max-w-fit">
+      <img
+        class=""
+        src="${response[index].Image}"
+        alt="${response[index].Name}"
+      />
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2 text-center flex flex-wrap">${response[index].Name}</div>
+        <div class="py-6 flex justify-center">
+        
+          <button class="button" onclick="openModal(${response[index].BandId})">
+            <span class="button_lg">
+              <span class="button_sl"></span>
+              <<span class="button_text">More Info</span>
+            </span>
+          </button>
+        </div>
       </div>
-      <div class='info'>
-         <h2>
-            <a target='_blank' rel='noopener noreferrer' href='https://groupietrackers.herokuapp.com/api/artists/${id}'>
-            ${response[index].Name}
-            </a>
-         </h2>
-         <div class='title'>1<sup>st</sup> album: ${response[index].FirstAlbum}
-         </div>
-         <div class='desc'>
-            <p><br/>${response[index].Members.join("<br/>")}</p>
-         </div>
-      </div>
-      <div class='actions'>
-         <div class='overlay'></div>
-         <div class='calendar-container'>
-            <img src='/static/assets/calendar.svg' class='my-icon'>
-         </div>
-      </div>
-   </div>`
+    </div>`
     )
     .hide()
     .slideDown("normal");

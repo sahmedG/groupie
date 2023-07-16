@@ -4,7 +4,7 @@ $(document).ready(function () {
     debounce(500, function () {
       if (!$("#search").val()) {
         $("#container").empty();
-        updateCards(9);
+        updateCards();
         return;
       }
       $.ajax({
@@ -29,7 +29,7 @@ $(document).ready(function () {
           $.each(retrievedData, function (_, value) {
             var members = "<br>";
             var foundBy = value.FoundBy;
-            var id = value.ArtistsID;
+            var id = value.BandId;
 
             $.each(value.Members, function (_, value) {
               members += value + "<br>";
@@ -46,7 +46,6 @@ $(document).ready(function () {
                   <div class="px-6 py-4">
                     <div class="font-bold text-xl mb-2 text-center flex flex-wrap">${value.Name}</div>
                     <div class="py-6 flex justify-center">
-                    
                       <button class="button" onclick="openModal(${id})">
                         <span class="button_lg">
                           <span class="button_sl"></span>

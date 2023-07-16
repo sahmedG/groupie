@@ -21,7 +21,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 
 		//convert everything to lower case to ease search algorithm
 		searchingFor := strings.ToLower(r.FormValue("search"))
-		tStart := time.Now()
+
 		for pers, art := range cache.Artists {
 			foundBy := ""
 			//search for artists by the group name
@@ -133,8 +133,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println("Error during json marshlling. Error:", err)
 		}
-		elapsed := time.Since(tStart)
-		log.Printf("It took %.4fs to search for %s\n", elapsed.Seconds(), searchingFor)
+
 		w.Write(b)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)

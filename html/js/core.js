@@ -3,34 +3,22 @@ var map = null;
 var mapMarkers = [];
 var mapCreated = false;
 var targetCardIndex = -1;
+updateCards();
 
-$(document).ready(function () {
-  //update cards on page load
-  $("#nothing-found").hide();
-  updateCards(52);
-});
+function updateCards() {
 
-function updateCards(amount) {
-  if (amount <= 0 || amount > 52) {
-    alert("400 Bad request");
-    return;
-  }
   $(document).ready(function () {
     return $.ajax({
       type: "POST",
       url: "/artists",
       dataType: "json",
-      data: {
-        "artists-amount": amount,
-        random: 1,
-      },
       traditional: true,
 
       success: function (retrievedData) {
         $("#container").empty();
         response = retrievedData;
         $.each(retrievedData, function (_, value) {
-          var id = value.ArtistsID;
+         // var id = value.BandId;
           $("#container")
             .append(
               ` 
@@ -44,7 +32,7 @@ function updateCards(amount) {
                 <div class="font-bold text-xl mb-2 text-center flex flex-wrap">${value.Name}</div>
                 <div class="py-6 flex justify-center">
                 
-                  <button class="button" onclick="openModal(${id})">
+                  <button class="button" onclick="openModal(${value.BandId})">
                     <span class="button_lg">
                       <span class="button_sl"></span>
                       <<span class="button_text">More Info</span>
@@ -70,7 +58,7 @@ function openModal(modalReference) {
   $(document).ready(function () {
     targetCardIndex = modalReference;
     $.each(response, function (key, value) {
-      if (value.ArtistsID === modalReference) {
+      if (value.BandId === modalReference) {
         targetCardIndex = key;
         return false;
       }
@@ -79,17 +67,41 @@ function openModal(modalReference) {
       alert("400 Bad request");
       return false;
     }
+    var concertDates = "<br>";
+    var locName = "";
+    var alldata = "";
+    $.each(response[targetCardIndex].RelationStruct, function (key, _) {
+      locName = key.replace(/-/g, ", ");
+      locName = locName = locName.replace(/_/g, " ");
+      locName += titleCase(locName);
+      $.each(
+        response[targetCardIndex].RelationStruct[key],
+        function (_, value) {
+          concertDates += value + "<br>";
+        }
+      );
+    });
     var membersList = "";
-
-    $.each(response[targetCardIndex].Members, function (key, value) {
+    $.each(response[targetCardIndex].Members, function (_, value) {
       membersList += value + "<br>";
     });
-
-    $("#modal").modal("show");
-    //$("#modal").find("#modal-body").html(concertDates);
-    $("#modal").find("#modal-body-members").html(membersList);
-    $("#modal .modal-title").text(response[targetCardIndex].Name);
-    $("#modal-img").attr("src", response[targetCardIndex].Image);
+    // var concertDates = "";
+    // $.each(
+    //   response[targetCardIndex].RelationStruct,
+    //   function (_, value) {
+    //     concertDates += value + ",";
+    //   }
+    // );
+  $("#modal").modal("show");
+  document.getElementById("cdate").innerHTML = "Concerts Dates:"+(concertDates);
+  document.getElementById("cloc").innerHTML = "Concerts loc:"+(locName);
+   document.getElementById("crdate").innerHTML = "Creation Date:"+response[targetCardIndex].CreationDate;
+   //document.getElementById("cdate").innerHTML = "Concerts Dates:<br>"+concertDates;
+  // document.getElementById("cloc").innerHTML = "First Album:<br>"+(response[targetCardIndex].FirstAlbum);
+   document.getElementById("modal-body-members").innerHTML = "Members:<br>"+membersList;
+   document.getElementById("modal-img").src = response[targetCardIndex].Image;
+   document.getElementById("modal-title").innerHTML = "Band Name:<br>" + (response[targetCardIndex].Name);
+    //$("#modal-img").attr("src", response[targetCardIndex].Image);
     if (!mapCreated) {
       createMap();
       mapCreated = true;
@@ -137,7 +149,6 @@ function updateMarkers() {
     var locName = index.Name.replace(/-/g, ", ");
     locName = locName = locName.replace(/_/g, " ");
     locName = titleCase(locName);
-
     $.each(
       response[targetCardIndex].RelationStruct[index.Name],
       function (_, value) {
@@ -145,6 +156,7 @@ function updateMarkers() {
       }
     );
 
+    console.log(locName+concertDates)
     map.geoObjects.add(
       new ymaps.Placemark([index.Coords[0], index.Coords[1]], {
         preset: "islands#icon",

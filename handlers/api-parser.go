@@ -3,7 +3,7 @@ package ConcertAPI
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -16,10 +16,9 @@ func sendRequest(link string, pointer interface{}) {
 		os.Exit(1)
 	}
 
-	responseData, err := ioutil.ReadAll(res.Body)
+	responseData, err := io.ReadAll(res.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
 	json.Unmarshal(responseData, &pointer)
-	return
 }

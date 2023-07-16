@@ -46,7 +46,7 @@ type Relation struct {
 }
 
 type Data struct {
-	ArtistsID     int
+	BandId     int
 	Image         string
 	Name          string
 	Members       []string

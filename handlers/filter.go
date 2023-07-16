@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 )
 
 var allArtists []Data
@@ -14,7 +13,6 @@ var allArtists []Data
 func FilterArtists(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		tStart := time.Now()
 		r.ParseForm()
 		creationFrom := r.FormValue("creation-date-from")
 		creationTo := r.FormValue("creation-date-to")
@@ -56,8 +54,7 @@ func FilterArtists(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println("Error during json marshlling. Error:", err)
 		}
-		elapsed := time.Since(tStart)
-		log.Printf("Filtering took %.4fs\n", elapsed.Seconds())
+
 		w.Write(b)
 	default:
 		w.WriteHeader(http.StatusBadRequest)
@@ -71,7 +68,7 @@ func creationDate(from, to string, filteredArtists, rangeOver *[]Data) {
 
 	for _, art := range *rangeOver {
 		if (art.CreationDate >= fromInt) && (art.CreationDate <= toInt) {
-			*filteredArtists = append(*filteredArtists, getData(art.ArtistsID-1))
+			*filteredArtists = append(*filteredArtists, getData(art.BandId-1))
 		}
 	}
 }
@@ -84,7 +81,7 @@ func firstAlbum(from, to string, filteredArtists, rangeOver *[]Data) {
 		spl := strings.Split(art.FirstAlbum, "/")
 		date, _ := strconv.Atoi(spl[2])
 		if (date >= fromInt) && (date <= toInt) {
-			*filteredArtists = append(*filteredArtists, getData(art.ArtistsID-1))
+			*filteredArtists = append(*filteredArtists, getData(art.BandId-1))
 		}
 	}
 }
@@ -95,7 +92,7 @@ func members(from, to string, filteredArtists, rangeOver *[]Data) {
 
 	for _, art := range *rangeOver {
 		if (len(art.Members) >= fromInt) && (len(art.Members) <= toInt) {
-			*filteredArtists = append(*filteredArtists, getData(art.ArtistsID-1))
+			*filteredArtists = append(*filteredArtists, getData(art.BandId-1))
 		}
 	}
 }
@@ -107,7 +104,7 @@ func countries(country string, filteredArtists, rangeOver *[]Data) {
 		for _, art := range *rangeOver {
 			for _, loc := range art.Locations {
 				if strings.Contains(loc, c) {
-					*filteredArtists = append(*filteredArtists, getData(art.ArtistsID-1))
+					*filteredArtists = append(*filteredArtists, getData(art.BandId-1))
 					break
 				}
 			}

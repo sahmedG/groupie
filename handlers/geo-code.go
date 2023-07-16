@@ -2,7 +2,7 @@ package ConcertAPI
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -28,7 +28,7 @@ func GetGeocode(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println("Error:", err)
 		}
-		jsonData, err := ioutil.ReadAll(jsonFile)
+		jsonData, err := io.ReadAll(jsonFile)
 		if err != nil {
 			log.Println(err)
 		}

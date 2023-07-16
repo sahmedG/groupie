@@ -3,40 +3,18 @@ package ConcertAPI
 import (
 	"encoding/json"
 	"log"
-	"math/rand"
 	"net/http"
-	"strconv"
 	"time"
 )
 
-//function that being called when page is reloaded, or search result is clicked
+// function that being called when page is reloaded, or search result is clicked
 func GetArtists(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
-		if r.FormValue("artists-amount") == "" || r.FormValue("random") == "" {
-			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte(`artists-amout" and "random" variables are required`))
-			break
-		}
-		amount, err := strconv.Atoi(r.FormValue("artists-amount"))
-		if err != nil {
-			log.Println("Error during atoi conversion.Error:", err)
-			amount = 9
-		}
-
 		var dataArr []Data
-		var persons []int
-
-		if r.FormValue("random") == "1" {
-			persons = randomNums(amount)
-		} else {
-			persons = sortedNums(amount)
+		for i := 0; i < 52; i++ {
+			dataArr = append(dataArr, getData(i))
 		}
-
-		for _, pers := range persons {
-			dataArr = append(dataArr, getData(pers))
-		}
-
 		b, err1 := json.Marshal(dataArr)
 		if err1 != nil {
 			log.Println("Error during json marshlling. Error:", err1)
@@ -54,7 +32,7 @@ func getData(pers int) Data {
 		log.Println("Error during time formatting. Error:", err)
 	}
 	return Data{
-		ArtistsID:     cache.Artists[pers].ID,
+		BandId:     cache.Artists[pers].ID,
 		Image:         cache.Artists[pers].Image,
 		Name:          cache.Artists[pers].Name,
 		Members:       cache.Artists[pers].Members,
@@ -72,31 +50,4 @@ func getData(pers int) Data {
 
 		JSONLen: len(cache.Artists),
 	}
-}
-
-func sortedNums(size int) []int {
-	var res []int
-	for i := 0; i < size; i++ {
-		res = append(res, i)
-	}
-	return res
-}
-
-func randomNums(size int) []int {
-
-	res := make([]int, size)
-	m := make(map[int]int)
-
-	rand.Seed(time.Now().UnixNano())
-	for i := 0; i < size; i++ {
-		for {
-			n := rand.Intn(52)
-			if _, found := m[n]; !found {
-				m[n] = n
-				res[i] = n
-				break
-			}
-		}
-	}
-	return res
 }

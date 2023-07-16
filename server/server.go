@@ -6,13 +6,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
-	"text/template"
 	"time"
 )
-
-var indexTpl *template.Template
-var tpl404 *template.Template
 
 func init() {
 	// indexTpl = template.Must(template.ParseGlob("templates/index/*.html"))
@@ -47,52 +44,39 @@ func init() {
 
 func main() {
 	var r router
-	
+
 	http.ListenAndServe(":8080", &r)
 }
 
 type router struct{}
 
 func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	fmt.Println(req.URL.Path)
-	switch req.URL.Path {
-	case "/":
+	path := req.URL.Path
+
+
+	if path == "/" {
 		ConcertAPI.Index(w, req)
-	case "/output.css": // Serves the css file
-		ConcertAPI.StylesServ(w, req)
-	case "/static/vid.mp4":
-		ConcertAPI.VidServe(w, req)
-	case "/bands":
+	} else if path == "/bands"{
 		ConcertAPI.Bands(w, req)
-	case "/artists":
+	} else if path == "/filter" {
+		ConcertAPI.FilterArtists(w, req)
+	} else if path == "/geocode" {
+		ConcertAPI.GetGeocode(w, req)
+	} else if path == "/artists"{
 		ConcertAPI.GetArtists(w, req)
-	case "/artisttemplate":
-		ConcertAPI.ArtistTemplate(w, req)
-	case "/filter":
-		ConcertAPI.FilterArtists(w,req)
-	case "/geocode":
-		ConcertAPI.GetGeocode(w,req)
-	case "/find":
-		ConcertAPI.FindArtist(w,req)
-	case "/static/js/core.js":
-		ConcertAPI.ScriptsServ(w, req)
-	case "/static/js/locations.js":
-		ConcertAPI.ScriptsServ2(w, req)
-	case "/static/js/search.js":
-		ConcertAPI.ScriptsServ3(w, req)
-	case "/static/js/beautify.js":
-		ConcertAPI.ScriptsServ4(w, req)
-	case "/static/js/filter.js":
-		ConcertAPI.ScriptsServ5(w, req)
-	case "/static":
-	 	ConcertAPI.StaticFiles(w,req)
-	case "/static/css/sidenav.css":
-		ConcertAPI.StylesServ5(w,req)
-	case "/static/css/hero.css":
-		ConcertAPI.StylesServ3(w,req)
-	case "/static/css/card.css":
-		ConcertAPI.StylesServ4(w,req)
-	default:
-		http.Error(w, "404 Not Found", 404)
-	}
+	} else if path == "/find" {
+		ConcertAPI.FindArtist(w,req)	
+	} else if strings.Contains(path, "/static") {
+		filename := strings.ReplaceAll(req.URL.Path, "/static/", "")
+		fmt.Println(filename)
+		ConcertAPI.StaticFiles(w, req, filename)
+	} else if strings.Contains(path, "/css") {
+		filename := strings.ReplaceAll(req.URL.Path, "/css/", "")
+		fmt.Println(filename)
+		ConcertAPI.StylesServ(w, req, filename)
+	} else if strings.Contains(path, "/js") {
+		filename := strings.ReplaceAll(req.URL.Path, "/js/", "")
+		fmt.Println(filename)
+		ConcertAPI.ScriptsServ(w, req, filename)
+	} 
 }

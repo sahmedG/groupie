@@ -7,7 +7,6 @@ import (
 )
 
 var indexTpl *template.Template
-var tpl404 *template.Template
 
 // func Bands(w http.ResponseWriter, req *http.Request) {
 // 	origin := req.Header.Get("Origin")
@@ -19,43 +18,33 @@ var tpl404 *template.Template
 
 func Bands(w http.ResponseWriter, r *http.Request) {
 	indexTpl = template.Must(template.ParseGlob("../templates/index/*.html"))
-	tpl404 = template.Must(template.ParseGlob("../templates/404/*.html"))
 	if r.URL.Path == "/favicon.ico" {
 		http.ServeFile(w, r, "static/assets/favicon.ico")
-	}
-	switch r.Method {
-	case "GET":
-		fmt.Println("here")
-		indexTpl.ExecuteTemplate(w, "bands.html", nil)
-	default:
-		callErrorPage(w, r, 405)
-	}
+	} else if r.URL.Path == "/bands" {
+		switch r.Method {
+		case "GET":
+			fmt.Println("here")
+			indexTpl.ExecuteTemplate(w, "bands.html", nil)
+		default:
+			CallErrorPage(w, r, 405)
+		}
+	} else {
+		CallErrorPage(w,r,404)
+	} 
 }
 
-func callErrorPage(w http.ResponseWriter, r *http.Request, errorCode int) {
-	var errorMsg string
-
+func CallErrorPage(w http.ResponseWriter, r *http.Request, errorCode int) {
+	fmt.Println("url"+r.URL.Path)
 	switch errorCode {
 	case 404:
+		r.URL.Path = "/"
 		w.WriteHeader(http.StatusNotFound)
-		errorMsg = "404 Page not found"
+		http.ServeFile(w,r,"../templates/404/404.html")
 	case 405:
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		errorMsg = "405 Wrong method"
 	case 400:
 		w.WriteHeader(http.StatusBadRequest)
-		errorMsg = "400 Bad request"
 	default:
 		w.WriteHeader(http.StatusInternalServerError)
-		errorMsg = "500 Internal error"
-		errorCode = 500
 	}
-
-	tpl404.ExecuteTemplate(w, "404.html", struct {
-		ErrorCode int
-		Error     string
-	}{
-		ErrorCode: errorCode,
-		Error:     errorMsg,
-	})
 }
