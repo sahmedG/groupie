@@ -111,7 +111,7 @@ function displayConcerts() {
         ctr +
         `" >
         <label class = "form-check-label" for = "` +
-        ctr +
+        value +
         `" > ` +
         ctr +
         ` </label> 
