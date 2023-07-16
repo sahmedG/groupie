@@ -18,9 +18,17 @@ type router struct{}
 func (r *router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	path := req.URL.Path
 	if path == "/" {
-		ConcertAPI.Index(w, req)
+		if req.Method == "GET" {
+			ConcertAPI.Index(w, req)
+		} else {
+			ConcertAPI.Serve400Html(w, req)
+		}
 	} else if path == "/bands" {
-		ConcertAPI.Bands(w, req)
+		if req.Method == "GET" {
+			ConcertAPI.Bands(w, req)
+		} else {
+			ConcertAPI.Serve400Html(w, req)
+		}
 	} else if path == "/templates" {
 		ConcertAPI.ArtistTemplate(w, req)
 	} else if path == "/filter" {

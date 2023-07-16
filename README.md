@@ -1,9 +1,18 @@
 # ConcertAPI
 
-ConcertAPI is a program that Uses an API that has concert data to build a website.
+ConcertAPI is a RESTful API that uses concert data to build a website.
 
-1. Frontend: HTML and Tailwind CSS
-2. Backend: Go + Javascript
-3. API is written is JSON
+# Technologies used
 
-Project still in works
+1. Frontend: HTML + Tailwind CSS + Js (Vanilla)
+2. Backend: Go
+
+# To run this project
+
+1. After cloning, head to `/server` and type `go run .`
+2. Go to any browser of Your choice and type `localhost:8080/`
+
+This project runs on port 8080. Please use correct requests
+Only standard Go libraries were used
+
+# Done by sahmed, malsamma and akhaled
