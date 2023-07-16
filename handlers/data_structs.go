@@ -1,10 +1,10 @@
 package ConcertAPI
 
-type Cache struct {
-	ArtistsURI   string `json:"artists"`
-	LocationsURI string `json:"locations"`
-	DatesURI     string `json:"dates"`
-	RelationURI  string `json:"relation"`
+type Inputs struct {
+	BandsUrl   string `json:"artists"`
+	LocUrl string `json:"locations"`
+	DatesUrl     string `json:"dates"`
+	RelationUrl  string `json:"relation"`
 
 	Artists   []Artist
 	Locations Locations
@@ -46,7 +46,7 @@ type Relation struct {
 }
 
 type Data struct {
-	BandId     int
+	BandId     	  int
 	Image         string
 	Name          string
 	Members       []string
@@ -55,16 +55,12 @@ type Data struct {
 	LocationsLink string
 	ConcertDates  string
 	Relations     string
-
 	Locations      []string
 	LocationsDates string
 	RelationStruct map[string][]string
-
 	Dates []string
-
 	ErrorCode int
 	Error     string
-
 	FoundBy []string
 	JSONLen int
 }

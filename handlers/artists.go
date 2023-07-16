@@ -4,11 +4,10 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"time"
 )
 
 // function that being called when page is reloaded, or search result is clicked
-func GetArtists(w http.ResponseWriter, r *http.Request) {
+func GetBands(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
 		var dataArr []Data
@@ -27,27 +26,20 @@ func GetArtists(w http.ResponseWriter, r *http.Request) {
 }
 
 func getData(pers int) Data {
-	myDate, err := time.Parse("02-01-2006 15:04", cache.Artists[pers].FirstAlbum+" 04:35")
-	if err != nil {
-		log.Println("Error during time formatting. Error:", err)
-	}
 	return Data{
-		BandId:     cache.Artists[pers].ID,
-		Image:         cache.Artists[pers].Image,
-		Name:          cache.Artists[pers].Name,
-		Members:       cache.Artists[pers].Members,
-		CreationDate:  cache.Artists[pers].CreationDate,
-		FirstAlbum:    myDate.Format("02/01/2006"),
-		LocationsLink: cache.Artists[pers].Locations,
-		ConcertDates:  cache.Artists[pers].ConcertDates,
-		Relations:     cache.Artists[pers].Relations,
-
-		Locations:      cache.Locations.Index[pers].Locations,
-		LocationsDates: cache.Locations.Index[pers].Dates,
-
-		Dates:          cache.Dates.Index[pers].Dates,
-		RelationStruct: cache.Relation.Index[pers].DatesLocations,
-
-		JSONLen: len(cache.Artists),
+		BandId:     inputs.Artists[pers].ID,
+		Image:         inputs.Artists[pers].Image,
+		Name:          inputs.Artists[pers].Name,
+		Members:       inputs.Artists[pers].Members,
+		CreationDate:  inputs.Artists[pers].CreationDate,
+		FirstAlbum:    inputs.Artists[pers].FirstAlbum,
+		LocationsLink: inputs.Artists[pers].Locations,
+		ConcertDates:  inputs.Artists[pers].ConcertDates,
+		Relations:     inputs.Artists[pers].Relations,
+		Locations:      inputs.Locations.Index[pers].Locations,
+		LocationsDates: inputs.Locations.Index[pers].Dates,
+		Dates:          inputs.Dates.Index[pers].Dates,
+		RelationStruct: inputs.Relation.Index[pers].DatesLocations,
+		JSONLen: len(inputs.Artists),
 	}
 }

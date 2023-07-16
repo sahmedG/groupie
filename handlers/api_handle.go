@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-func sendRequest(link string, pointer interface{}) {
+func SendRequest(link string, pointer interface{}) {
 	res, err := http.Get(link)
 	if err != nil {
 		fmt.Println(err.Error())

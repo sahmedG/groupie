@@ -10,7 +10,7 @@ import (
 
 var allArtists []Data
 
-func FilterArtists(w http.ResponseWriter, r *http.Request) {
+func FilterBands(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
 		r.ParseForm()
@@ -119,7 +119,7 @@ func getFilteredArtists(filteredArtists *[]Data, firstSearch bool) []Data {
 		*filteredArtists = nil
 	} else {
 		if len(allArtists) == 0 {
-			for pers := range cache.Artists {
+			for pers := range inputs.Artists {
 				allArtists = append(allArtists, getData(pers))
 			}
 		}

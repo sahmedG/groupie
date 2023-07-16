@@ -24,7 +24,7 @@ func GetGeocode(w http.ResponseWriter, r *http.Request) {
 		var response []Country
 		var country Country
 
-		jsonFile, err := os.Open("../handlers/data/geocodes.json")
+		jsonFile, err := os.Open("../handlers/data/loc_codes.json")
 		if err != nil {
 			log.Println("Error:", err)
 		}
