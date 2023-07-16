@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="output.css" />
+    <link rel="stylesheet" href="/css/output.css" />
     
     <style>
       button {
@@ -41,25 +41,25 @@
       <div class="relative">
         <img
           class="object-cover w-16 h-16 rounded-full"
-          src=".{{ImagePath}}"
+          src=""
           alt="Artist Image"
         />
       </div>
     </div>
     <!--Artist name-->
-    <div id ="artName" class="text-6xl text-center text-green-500">.{{ArtistName}}</div>
+    <div id ="artName" class="text-6xl text-center text-green-500"></div>
     <!--Artist Info-->
     <div class="flex-col justify-start px-8 py-6">
-      <div class="text-white text-xl py-4">Members: .{{ArtistMembers}}</div>
+      <div class="text-white text-xl py-4">Members:</div>
       <div class="text-white text-xl py-4">
-        Creation Date: .{{CreationDate}}
+        Creation Date:
       </div>
       <div class="text-white text-xl py-4">
-        First Album: .{{FirstAlbumDate}}
+        First Album:
       </div>
-      <div class="text-white text-xl py-4">Locations: .{{Locations}}</div>
+      <div class="text-white text-xl py-4">Locations: </div>
       <div class="text-white text-xl py-4">
-        Concert Dates: .{{ConcertDates}}
+        Concert Dates: 
       </div>
     </div>
     <button id="btn" class="px-8 py-4" onclick="window.open('http://localhost:8080/', '_self')">Back To HomePage</button>

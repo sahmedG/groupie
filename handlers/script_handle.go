@@ -6,15 +6,15 @@ import (
 
 func ScriptsServ(w http.ResponseWriter, req *http.Request, filename string) {
 	switch filename {
-	case "core.js":
-		http.ServeFile(w, req, "../html/js/core.js")
-	case "beautify.js":
-		http.ServeFile(w, req, "../html/js/beautify.js")
-	case "search.js":
-		http.ServeFile(w, req, "../html/js/search.js")
+	case "rendering_data.js":
+		http.ServeFile(w, req, "../html/js/rendering_data.js")
+	case "manipulation_css.js":
+		http.ServeFile(w, req, "../html/js/css_manipulation.js")
+	case "search_bands.js":
+		http.ServeFile(w, req, "../html/js/search_bands.js")
 	case "locations.js":
 		http.ServeFile(w, req, "../html/js/locations.js")
-	case "filter.js":
-		http.ServeFile(w, req, "../html/js/filter.js")
+	case "filter_bands.js":
+		http.ServeFile(w, req, "../html/js/filter_bands.js")
 	}
 }

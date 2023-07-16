@@ -68,7 +68,7 @@ func creationDate(from, to string, filteredArtists, rangeOver *[]Data) {
 
 	for _, art := range *rangeOver {
 		if (art.CreationDate >= fromInt) && (art.CreationDate <= toInt) {
-			*filteredArtists = append(*filteredArtists, getData(art.BandId-1))
+			*filteredArtists = append(*filteredArtists, FetchData(art.BandId-1))
 		}
 	}
 }
@@ -81,7 +81,7 @@ func firstAlbum(from, to string, filteredArtists, rangeOver *[]Data) {
 		spl := strings.Split(art.FirstAlbum, "/")
 		date, _ := strconv.Atoi(spl[2])
 		if (date >= fromInt) && (date <= toInt) {
-			*filteredArtists = append(*filteredArtists, getData(art.BandId-1))
+			*filteredArtists = append(*filteredArtists, FetchData(art.BandId-1))
 		}
 	}
 }
@@ -92,7 +92,7 @@ func members(from, to string, filteredArtists, rangeOver *[]Data) {
 
 	for _, art := range *rangeOver {
 		if (len(art.Members) >= fromInt) && (len(art.Members) <= toInt) {
-			*filteredArtists = append(*filteredArtists, getData(art.BandId-1))
+			*filteredArtists = append(*filteredArtists, FetchData(art.BandId-1))
 		}
 	}
 }
@@ -104,7 +104,7 @@ func countries(country string, filteredArtists, rangeOver *[]Data) {
 		for _, art := range *rangeOver {
 			for _, loc := range art.Locations {
 				if strings.Contains(loc, c) {
-					*filteredArtists = append(*filteredArtists, getData(art.BandId-1))
+					*filteredArtists = append(*filteredArtists, FetchData(art.BandId-1))
 					break
 				}
 			}
@@ -120,7 +120,7 @@ func getFilteredArtists(filteredArtists *[]Data, firstSearch bool) []Data {
 	} else {
 		if len(allArtists) == 0 {
 			for pers := range inputs.Artists {
-				allArtists = append(allArtists, getData(pers))
+				allArtists = append(allArtists, FetchData(pers))
 			}
 		}
 		data = allArtists

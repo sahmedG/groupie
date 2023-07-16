@@ -106,12 +106,12 @@ function openModal(modalReference) {
       createMap();
       mapCreated = true;
     }
-    getGeocodes();
+    FetchLocCodes();
     ymaps.ready(updateMarkers());
   });
 }
 
-function getGeocodes(strArr) {
+function FetchLocCodes(strArr) {
   var query = "";
   $.each(response[targetCardIndex].RelationStruct, function (key, value) {
     if (query.length < 1) {

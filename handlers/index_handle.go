@@ -7,6 +7,6 @@ import (
 
 func Index(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(req.URL.Path)
-	http.ServeFile(w, req, "../html/index.html")
+	http.ServeFile(w, req, "../html/templates/index.html")
 	w.Header().Set("Content-Type", "text/html")
 }

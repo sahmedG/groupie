@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func FindArtist(w http.ResponseWriter, r *http.Request) {
+func FindBand(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "POST":
 
@@ -26,7 +26,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 			foundBy := ""
 			//search for artists by the group name
 			if strings.Contains(strings.ToLower(art.Name), searchingFor) {
-				data = getData(pers)
+				data = FetchData(pers)
 				dataArr = append(dataArr, data)
 				currIndex++
 				foundBy += "group name"
@@ -34,7 +34,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 			} else if strings.Contains(strconv.Itoa(art.CreationDate), searchingFor) {
 				if len(dataArr) >= 1 {
 					if dataArr[currIndex-1].Name != art.Name {
-						data = getData(pers)
+						data = FetchData(pers)
 						foundBy += "creation date"
 						dataArr = append(dataArr, data)
 						currIndex++
@@ -44,7 +44,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 						}
 					}
 				} else {
-					data = getData(pers)
+					data = FetchData(pers)
 					foundBy += "creation date"
 					dataArr = append(dataArr, data)
 					currIndex++
@@ -54,7 +54,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 				if strings.Contains(myDate.Format("02/01/2006"), searchingFor) || strings.Contains(art.FirstAlbum, searchingFor) {
 					if len(dataArr) >= 1 {
 						if dataArr[currIndex-1].Name != art.Name {
-							data = getData(pers)
+							data = FetchData(pers)
 							foundBy += "first album"
 							dataArr = append(dataArr, data)
 							currIndex++
@@ -64,7 +64,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 							}
 						}
 					} else {
-						data = getData(pers)
+						data = FetchData(pers)
 						foundBy += "by first album"
 						dataArr = append(dataArr, data)
 						currIndex++
@@ -76,7 +76,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 				if strings.Contains(strings.ToLower(member), searchingFor) {
 					if len(dataArr) >= 1 {
 						if dataArr[currIndex-1].Name != art.Name {
-							data = getData(pers)
+							data = FetchData(pers)
 							foundBy += "member name"
 							dataArr = append(dataArr, data)
 							currIndex++
@@ -88,7 +88,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 							}
 						}
 					} else {
-						data = getData(pers)
+						data = FetchData(pers)
 						foundBy += "member name"
 						dataArr = append(dataArr, data)
 						currIndex++
@@ -104,7 +104,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 				if strings.Contains(location, searchingFor) || strings.Contains(locationDefault, searchingFor) {
 					if len(dataArr) >= 1 {
 						if dataArr[currIndex-1].Name != art.Name {
-							data = getData(pers)
+							data = FetchData(pers)
 							foundBy += "location"
 							dataArr = append(dataArr, data)
 							currIndex++
@@ -116,7 +116,7 @@ func FindArtist(w http.ResponseWriter, r *http.Request) {
 							}
 						}
 					} else {
-						data = getData(pers)
+						data = FetchData(pers)
 						dataArr = append(dataArr, data)
 						foundBy += "location"
 						currIndex++
